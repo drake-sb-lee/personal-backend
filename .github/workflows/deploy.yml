@@ -21,7 +21,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build
-        run: ./mvnw package -Pnative -Dquarkus.container-image.build=true
+        run: ./mvnw package -Pnative -Dquarkus.container-build=true
 #      - name: Upload Build
 #        uses: actions/upload-artifact@v2
 #        with:
@@ -42,5 +42,5 @@ jobs:
           ECR_REPOSITORY: personal-backend
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG src/main/docker/Dockerfile.native
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f src/main/docker/Dockerfile.native .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
